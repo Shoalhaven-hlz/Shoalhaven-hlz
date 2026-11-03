@@ -395,6 +395,7 @@ def reset_filters():
     # to update the values of widgets that already have session-state keys.
     st.session_state.station_filter = "All"
     st.session_state.suburb_filter = "All"
+    st.session_state.keyword_filter = ""
     st.session_state.selected_hlz = None
     st.session_state.selection_distance_km = None
     exit_nearest_mode()
@@ -778,12 +779,17 @@ st.markdown(
 # Use the current session-state filters to calculate the count before rendering the expander.
 _count_station = st.session_state.get("station_filter", "All")
 _count_suburb = st.session_state.get("suburb_filter", "All")
+_count_keyword = st.session_state.get("keyword_filter", "").strip()
 _count_df = df.copy()
 if _count_station != "All":
     _count_df = _count_df[_count_df["Station Area"].astype(str) == _count_station]
 if _count_suburb != "All":
     _count_df = _count_df[_count_df["Suburb"].astype(str) == _count_suburb]
-_filter_heading = f"🔎 Search by Station Area or Suburb · {len(_count_df)} HLZ{'s' if len(_count_df) != 1 else ''} found"
+if _count_keyword:
+    _search_columns = ["Station Area", "Suburb", "Notes"]
+    _search_text = _count_df[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
+    _count_df = _count_df[_search_text.str.contains(_count_keyword, case=False, regex=False)]
+_filter_heading = f"🔎 Search HLZs · {len(_count_df)} HLZ{'s' if len(_count_df) != 1 else ''} found"
 
 # Compact, collapsed search accordion to preserve map space on mobile.
 with st.expander(
@@ -802,21 +808,34 @@ with st.expander(
         suburb_options = ["All"] + sorted(df["Suburb"].dropna().astype(str).unique().tolist())
         suburb = st.selectbox("Suburb", suburb_options, key="suburb_filter", on_change=exit_nearest_mode)
 
+    keyword = st.text_input(
+        "Keyword search",
+        key="keyword_filter",
+        placeholder="Search suburb, station area or notes...",
+        help="Finds partial, case-insensitive matches in Suburb, Station Area and Notes.",
+        on_change=exit_nearest_mode,
+    )
+
     search_count_col, reset_col = st.columns([5, 1])
     with search_count_col:
         st.markdown(f"**Search results: {len(_count_df)} HLZ{'s' if len(_count_df) != 1 else ''}**")
-        st.caption("Count updates when Station Area or Suburb filters change.")
+        st.caption("Dropdowns and keyword search are applied together.")
     with reset_col:
         st.button("↩ Reset Filters", use_container_width=True, on_click=reset_filters)
 
 # Read current filter values from session state even when the accordion is collapsed.
 station = st.session_state.get("station_filter", "All")
 suburb = st.session_state.get("suburb_filter", "All")
+keyword = st.session_state.get("keyword_filter", "").strip()
 filtered = df.copy()
 if station != "All":
     filtered = filtered[filtered["Station Area"].astype(str) == station]
 if suburb != "All":
     filtered = filtered[filtered["Suburb"].astype(str) == suburb]
+if keyword:
+    _search_columns = ["Station Area", "Suburb", "Notes"]
+    _search_text = filtered[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
+    filtered = filtered[_search_text.str.contains(keyword, case=False, regex=False)]
 
 # =========================
 # Current location permission and controls
@@ -1448,7 +1467,7 @@ elif st.session_state.selected_hlz is None:
 st.markdown(
     '<div style="margin-top:1.2rem; padding-top:0.8rem; border-top:1px solid #CBD5E1;">'
     '<strong>Issues, faults, feedback or questions?</strong><br>'
-    '<a href="mailto:xxx@email.com.au?subject=Shoalhaven%20HLZ%20application" '
+    '<a href="mailto:shoalhavenhlz@gmail.com?subject=Shoalhaven%20HLZ%20application" '
     'style="color:#1E5AA8; font-weight:600; text-decoration:underline;">'
     '✉ Email the HLZ application team</a>'
     '</div>',
