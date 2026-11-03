@@ -10,6 +10,46 @@ import math
 import json
 import urllib.request
 import urllib.error
+import re
+
+
+# Expand common street/address abbreviations so searches match either form.
+_SEARCH_ABBREVIATIONS = {
+    "rd": "road",
+    "st": "street",
+    "street": "street",
+    "road": "road",
+    "ave": "avenue",
+    "av": "avenue",
+    "dr": "drive",
+    "ct": "court",
+    "cres": "crescent",
+    "cr": "crescent",
+    "hwy": "highway",
+    "ln": "lane",
+    "pl": "place",
+    "pde": "parade",
+    "tce": "terrace",
+    "cl": "close",
+}
+
+
+def _normalise_search_text(value):
+    text = str(value or "").casefold()
+    return re.sub(
+        r"\\b[\\w]+\\b",
+        lambda match: _SEARCH_ABBREVIATIONS.get(match.group(0), match.group(0)),
+        text,
+    )
+
+
+def _keyword_match_mask(search_text, keyword):
+    raw = str(keyword or "").casefold().strip()
+    expanded_query = _normalise_search_text(raw)
+    raw_match = search_text.astype(str).str.contains(raw, case=False, regex=False, na=False)
+    expanded_text = search_text.map(_normalise_search_text)
+    expanded_match = expanded_text.str.contains(expanded_query, case=False, regex=False, na=False)
+    return raw_match | expanded_match
 
 st.set_page_config(
     page_title="Shoalhaven Landing Zones",
@@ -783,7 +823,7 @@ if _count_suburb != "All":
 if _count_keyword:
     _search_columns = ["Station Area", "Suburb", "Notes", "Street Address"]
     _search_text = _count_df[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
-    _count_df = _count_df[_search_text.str.contains(_count_keyword, case=False, regex=False)]
+    _count_df = _count_df[_keyword_match_mask(_search_text, _count_keyword)]
 _filter_heading = f"🔎 Search HLZs · {len(_count_df)} HLZ{'s' if len(_count_df) != 1 else ''} found"
 
 # Compact, collapsed search accordion to preserve map space on mobile.
@@ -830,7 +870,7 @@ if suburb != "All":
 if keyword:
     _search_columns = ["Station Area", "Suburb", "Notes", "Street Address"]
     _search_text = filtered[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
-    filtered = filtered[_search_text.str.contains(keyword, case=False, regex=False)]
+    filtered = filtered[_keyword_match_mask(_search_text, keyword)]
 
 # =========================
 # Current location permission and controls
@@ -895,16 +935,30 @@ if permission_status == "desktop_disabled":
 
 if permission_status != "desktop_disabled":
     st.markdown("### 📍 Current Location")
-    st.info(
-        "This app can use your current location to show an ambulance marker and find the nearest recorded HLZ. "
-        "Your location is used only in this session and is not saved to the HLZ database. "
-        "Your browser will ask whether you want to allow access."
+    st.markdown(
+        """
+        <div style="background:#EFF6FF; color:#1E40AF; border:1px solid #BFDBFE;
+             border-left:6px solid #2563EB; border-radius:8px; padding:12px 14px;
+             margin:0 0 0 0;">
+          This app can use your current location to show an ambulance marker and find the nearest recorded HLZ.
+          Your location is used only in this session and is not saved to the HLZ database.
+          Your browser will ask whether you want to allow access.
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 if permission_status == "denied":
-    st.warning(
-        "Location access was declined or blocked. The current-location marker and Find Nearest HLZ feature are disabled and hidden until access is enabled. "
-        "You can still use the map and search HLZs manually."
+    st.markdown(
+        """
+        <div style="background:#FEE2E2; color:#991B1B; border:1px solid #FCA5A5;
+             border-left:6px solid #DC2626; border-radius:8px; padding:12px 14px;
+             margin:0 0 0 0; font-weight:600;">
+          <div style="font-size:1rem; margin-bottom:4px;">⚠️ Location access declined or blocked</div>
+          <div style="font-weight:500;">The current-location marker and Find Nearest HLZ feature are disabled until location access is enabled. You can still use the map and search HLZs manually.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
     st.markdown("**To enable location access:**")
     st.markdown(
@@ -938,7 +992,16 @@ elif permission_status == "error":
 if has_gps and permission_status == "granted":
     loc_col, refresh_col, nearest_col = st.columns([1.15, 1.35, 1.6])
     with loc_col:
-        st.success("📍 Location enabled")
+        st.markdown(
+            """
+            <div style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0;
+                 border-left:6px solid #16A34A; border-radius:8px; padding:10px 12px;
+                 min-height:42px; display:flex; align-items:center; font-weight:600;">
+              📍 Location enabled
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     with refresh_col:
         if st.button("🔄 Refresh Location", use_container_width=True):
             st.session_state.location_request_id += 1
