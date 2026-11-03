@@ -51,3 +51,19 @@ The banner and Streamlit page icon do not, by themselves, guarantee that Safari'
 ## Prototype 88 changes
 - Mobile: hide the green “Location enabled” status banner beneath the search controls. GPS, refresh, and nearest-HLZ controls remain available.
 - Selected HLZ details: replace the white rounded/shadow spacer with a thin horizontal divider and modest spacing.
+
+
+## Prototype 90
+- Updated the Selected HLZ Details explanatory text to use Streamlit `var(--text-color)`, adapting automatically to light and dark themes.
+- Kept the horizontal divider and its spacing unchanged.
+
+
+## Prototype 91
+- Updated Map key styling: orange heading text and a prominent 3px orange border around the key container.
+- Preserved map key entries, pins, and responsive layout.
+
+
+## Prototype 92
+- Map key retains a subtle light blue/grey background.
+- Map key border changed to 2px orange; heading remains orange.
+- Legend entries and spacing preserved.

@@ -1158,8 +1158,8 @@ if st.session_state.get("nearest_results"):
     if same_nearest_result:
         map_key_html = (
             '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
-            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
+            'background:rgba(148,163,184,0.14);border:2px solid #F28C28;border-radius:8px;">'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;color:#F28C28;margin-bottom:0;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#DC2626", 28)} <b>Closest overall &amp; matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
             + current_location_key +
@@ -1168,8 +1168,8 @@ if st.session_state.get("nearest_results"):
     else:
         map_key_html = (
             '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
-            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
+            'background:rgba(148,163,184,0.14);border:2px solid #F28C28;border-radius:8px;">'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;color:#F28C28;margin-bottom:0;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#2563EB", 28)} <b>Closest overall</b></span>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#16A34A", 28)} <b>Closest matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
@@ -1179,8 +1179,8 @@ if st.session_state.get("nearest_results"):
 else:
     map_key_html = (
         '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
-        'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-        '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
+        'background:rgba(148,163,184,0.14);border:2px solid #F28C28;border-radius:8px;">'
+        '<div style="flex-basis:100%;font-weight:700;font-size:1rem;color:#F28C28;margin-bottom:0;">Map key</div>'
         '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Helicopter landing zone (HLZ)</b></span>'
         + current_location_key +
         '</div>'
@@ -1543,7 +1543,7 @@ if st.session_state.selected_hlz is not None and st.session_state.selected_hlz i
     with st.container(border=True):
         st.markdown('<div style="font-size:1.2rem;font-weight:750;margin:0 0 6px 0;">Selected HLZ Details</div>', unsafe_allow_html=True)
         st.markdown(
-            '<div style="font-size:0.88rem; color:#5A6772; margin:0 0 0.05rem 0; padding:0;">'
+            '<div style="font-size:0.88rem; color:var(--text-color); margin:0 0 0.05rem 0; padding:0;">'
             'The information below relates to the HLZ selected on the map above.'
             '</div><hr style="border:0;border-top:1px solid rgba(90,103,114,0.35);'
             'margin:8px 0 12px 0;height:0;background:transparent;box-shadow:none;">',
