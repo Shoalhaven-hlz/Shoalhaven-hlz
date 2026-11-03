@@ -1146,7 +1146,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
-st.markdown('<div style="font-size:1.15rem;font-weight:700;margin:0 0 8px 0;">Map</div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size:1.5rem;font-weight:700;margin:0 0 8px 0;">Map</div>', unsafe_allow_html=True)
 current_location_key = (
     '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚑 <b>Your location</b></span>'
     if has_gps else ""
@@ -1154,9 +1154,9 @@ current_location_key = (
 if st.session_state.get("nearest_results"):
     if same_nearest_result:
         map_key_html = (
-            '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
+            '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
             'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#DC2626", 28)} <b>Closest overall &amp; matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
             + current_location_key +
@@ -1164,9 +1164,9 @@ if st.session_state.get("nearest_results"):
         )
     else:
         map_key_html = (
-            '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
+            '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
             'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#2563EB", 28)} <b>Closest overall</b></span>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#16A34A", 28)} <b>Closest matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
@@ -1175,9 +1175,9 @@ if st.session_state.get("nearest_results"):
         )
 else:
     map_key_html = (
-        '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
+        '<div style="display:flex;flex-wrap:wrap;column-gap:16px;row-gap:6px;align-items:center;padding:8px 12px;'
         'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
-        '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
+        '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:0;">Map key</div>'
         '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Helicopter landing zone (HLZ)</b></span>'
         + current_location_key +
         '</div>'

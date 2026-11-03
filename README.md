@@ -1,3 +1,11 @@
+# Shoalhaven HLZ Map — Prototype 87 (Full project package)
+
+## Prototype 87 updates
+- Increased the main **Map** heading from 1.15rem to 1.5rem.
+- Tightened the map key vertical spacing: legend rows now use a 6px row gap and the **Map key** heading has no extra bottom margin. Horizontal spacing remains unchanged.
+- Kept `app.py` as the sole Python app entry point; removed the redundant `hlz_streamlit_app_fixed.py`.
+- Full project package retains the database, branding assets, HTML, requirements and configuration files.
+
 # Shoalhaven HLZ Map — Prototype 86 (Full project package)
 
 ## Prototype 86 updates
