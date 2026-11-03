@@ -1,16 +1,27 @@
-# Shoalhaven HLZ Map — Prototype 67
+# Shoalhaven HLZ Map — Prototype 69
 
-Fix: When Find Nearest HLZ is active, show the entire HLZ network on the map. The closest overall and closest matching results retain their highlighted pins, while all other HLZs remain visible as orange helicopter markers. Filters still determine which HLZ qualifies as the closest matching result.
+## Changes in Prototype 68
 
-Deploy by replacing `app.py` in the existing repository. Keep your current `hlz_database.csv` if it contains newer records.
+This prototype carries forward the existing Shoalhaven Landing Zones app and includes the following updates:
 
+- Added free-text keyword search across **Station Area**, **Suburb**, **Notes**, and **Street Address**.
+- Keyword search supports case-insensitive partial matches and literal text (not regular expressions).
+- Keyword search works alongside the existing Station Area and Suburb dropdown filters.
+- Filter result counts update to reflect the active filters.
+- Reset Filters clears the keyword search as well as the dropdown filters.
+- Updated the contact email link to **shoalhavenhlz@gmail.com**.
+- Removed the current-location ambulance icon from the map legend.
+- Kept current-location functionality for supported mobile devices.
+- Removed the non-working current-location display/information from desktop and laptop layouts.
+- Restored the previous desktop/laptop warning information, with a computer icon (💻) at the start.
+- Changed the desktop/laptop warning banner to a red style with a red left border. The warning explains that location access is disabled on the device, while HLZ browsing, Station Area/Suburb filters, and navigation links remain available.
 
-## Shoalhaven Landing Zones branding update
+## Deployment
 
-This update is based on the supplied `app.py`, `index.html`, and the matching project ZIP. It is intended as a branding-only change:
-- Keeps the existing Streamlit map, filters, nearest-HLZ behaviour, navigation and admin prototype code.
-- Adds a navy/orange Shoalhaven Landing Zones banner.
-- Sets the Streamlit page icon to the supplied branded icon image.
+Replace `app.py` in the existing prototype/repository with the version in this ZIP. The ZIP contains only the updated prototype application and this README; unchanged files, including `hlz_database.csv`, are intentionally excluded.
 
-### Important iPhone Home Screen icon limitation
-The banner and Streamlit page icon do not, by themselves, guarantee that Safari's **Add to Home Screen** shortcut will use the custom icon. The iOS Home Screen icon is normally read from an `apple-touch-icon` link in the actual top-level page HTML. `index.html` in this project is a Streamlit custom component used for location/auth messaging; it is not the top-level Streamlit page HTML, so changing it will not set Safari's Home Screen icon. Streamlit Community Cloud does not provide a normal setting for editing that top-level HTML head. A separate hosting/proxy/PWA approach may be required to guarantee a custom iPhone icon. Do not replace this component's `index.html` with a generic HTML page, as that would break the existing location/auth bridge.
+Keep your existing `hlz_database.csv` and other project assets unless a future update specifically identifies them as changed.
+
+## Version numbering
+
+This release is **Prototype 69**. The next update will be **Prototype 70**, followed by 71, 72, and so on.

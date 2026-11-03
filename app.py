@@ -881,7 +881,17 @@ permission_status = st.session_state.location_permission_status
 has_gps = st.session_state.user_latitude is not None and st.session_state.user_longitude is not None
 
 if permission_status == "desktop_disabled":
-    st.warning("Desktop/laptop detected. Location access is disabled on this device.")
+    st.markdown(
+        """
+        <div style="background:#FEE2E2; color:#991B1B; border:1px solid #DC2626;
+             border-left:6px solid #DC2626; border-radius:8px; padding:12px 14px;
+             margin:0 0 0 0; font-weight:600;">
+          <div style="font-size:1rem; margin-bottom:4px;">💻 Desktop/laptop detected</div>
+          <div style="font-weight:500;">Location access is disabled on this device. You can still browse HLZs, use the Station Area and Suburb filters, and open navigation links.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 if permission_status != "desktop_disabled":
     st.markdown("### 📍 Current Location")
