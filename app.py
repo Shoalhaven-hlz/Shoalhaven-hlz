@@ -65,8 +65,7 @@ st.markdown(
             padding-top: 3.5rem;
             padding-bottom: 2rem;
         }}
-        /* Tighten the vertical gap between the Current Location info banner,
-           the zero-height location component, and the desktop warning. */
+        /* Keep the browser location component collapsed. */
         div[data-testid="stAlert"] {{
             margin-bottom: 0.25rem !important;
         }}
@@ -81,10 +80,6 @@ st.markdown(
             display: block !important;
             margin: 0 !important;
             padding: 0 !important;
-        }}
-        /* The red desktop warning should sit close to the blue location banner. */
-        div[data-testid="stElementContainer"]:has(iframe[title*="hlz_location_permission"]) + div[data-testid="stElementContainer"] {{
-            margin-top: -0.6rem !important;
         }}
         /* Keep a little breathing room around the interactive map on phones,
            making it easier to begin a page scroll without touching the map. */
@@ -786,7 +781,7 @@ if _count_station != "All":
 if _count_suburb != "All":
     _count_df = _count_df[_count_df["Suburb"].astype(str) == _count_suburb]
 if _count_keyword:
-    _search_columns = ["Station Area", "Suburb", "Notes"]
+    _search_columns = ["Station Area", "Suburb", "Notes", "Street Address"]
     _search_text = _count_df[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
     _count_df = _count_df[_search_text.str.contains(_count_keyword, case=False, regex=False)]
 _filter_heading = f"🔎 Search HLZs · {len(_count_df)} HLZ{'s' if len(_count_df) != 1 else ''} found"
@@ -811,8 +806,8 @@ with st.expander(
     keyword = st.text_input(
         "Keyword search",
         key="keyword_filter",
-        placeholder="Search suburb, station area or notes...",
-        help="Finds partial, case-insensitive matches in Suburb, Station Area and Notes.",
+        placeholder="Search suburb, station area, notes or address...",
+        help="Finds partial, case-insensitive matches in Suburb, Station Area, Notes and Street Address.",
         on_change=exit_nearest_mode,
     )
 
@@ -833,23 +828,13 @@ if station != "All":
 if suburb != "All":
     filtered = filtered[filtered["Suburb"].astype(str) == suburb]
 if keyword:
-    _search_columns = ["Station Area", "Suburb", "Notes"]
+    _search_columns = ["Station Area", "Suburb", "Notes", "Street Address"]
     _search_text = filtered[_search_columns].fillna("").astype(str).agg(" ".join, axis=1)
     filtered = filtered[_search_text.str.contains(keyword, case=False, regex=False)]
 
 # =========================
 # Current location permission and controls
 # =========================
-st.markdown("### 📍 Current Location")
-
-# The component automatically requests a one-off location fix when it first
-# appears after portal login. A visible explanation is rendered before it.
-st.info(
-    "This app can use your current location to show an ambulance marker and find the nearest recorded HLZ. "
-    "Your location is used only in this session and is not saved to the HLZ database. "
-    "Your browser will ask whether you want to allow access."
-)
-
 # A new component key forces Streamlit to mount a fresh browser iframe on each
 # retry/refresh request, rather than relying only on an in-place component rerender.
 location_result = _location_component(
@@ -895,19 +880,15 @@ if isinstance(location_result, dict):
 permission_status = st.session_state.location_permission_status
 has_gps = st.session_state.user_latitude is not None and st.session_state.user_longitude is not None
 
-if permission_status == "desktop_disabled":
-    st.markdown(
-        """
-        <div style="background:#FEE2E2; color:#991B1B; border:1px solid #DC2626; "
-             "border-left:6px solid #DC2626; border-radius:8px; padding:12px 14px; "
-             "margin:0 0 0 0; font-weight:600;">
-          <div style="font-size:1rem; margin-bottom:4px;">💻 Desktop/laptop detected</div>
-          <div style="font-weight:500;">Location access is disabled on this device. You can still browse HLZs, use the Station Area and Suburb filters, and open navigation links.</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+if permission_status != "desktop_disabled":
+    st.markdown("### 📍 Current Location")
+    st.info(
+        "This app can use your current location to show an ambulance marker and find the nearest recorded HLZ. "
+        "Your location is used only in this session and is not saved to the HLZ database. "
+        "Your browser will ask whether you want to allow access."
     )
-elif permission_status == "denied":
+
+if permission_status == "denied":
     st.warning(
         "Location access was declined or blocked. The current-location marker and Find Nearest HLZ feature are disabled and hidden until access is enabled. "
         "You can still use the map and search HLZs manually."
