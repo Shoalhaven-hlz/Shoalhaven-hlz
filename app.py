@@ -1090,8 +1090,8 @@ if has_gps and permission_status == "granted":
             st.session_state.ignore_next_map_click = True
             st.rerun()
     accuracy = st.session_state.user_location_accuracy
-    accuracy_text = f"GPS accuracy reported by device: ±{accuracy:.0f} m." if accuracy is not None else "Location permission granted."
-    st.caption(f"Your location is held only in this app session and is not written to the HLZ database. {accuracy_text}")
+    accuracy_text = f" GPS accuracy reported by device: ±{accuracy:.0f} m." if accuracy is not None else ""
+    st.caption(f"Your location is held only in this app session and is not written to the HLZ database.{accuracy_text}")
 elif permission_status == "not_requested" or permission_status == "pending":
     st.caption("Checking device type and location availability…")
 
@@ -1139,8 +1139,14 @@ if has_gps and nearest_results:
     )
 
 
+st.markdown(
+    "<style>h1 a.anchor-link, h2 a.anchor-link, h3 a.anchor-link, h4 a.anchor-link, "
+    "[data-testid='stHeaderActionElements'], [data-testid='stMarkdownContainer'] a.header-anchor "
+    "{display:none !important;}</style>",
+    unsafe_allow_html=True,
+)
 st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
-st.markdown("#### Map key")
+st.markdown('<div style="font-size:1.15rem;font-weight:700;margin:0 0 8px 0;">Map</div>', unsafe_allow_html=True)
 current_location_key = (
     '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚑 <b>Your location</b></span>'
     if has_gps else ""
@@ -1149,7 +1155,8 @@ if st.session_state.get("nearest_results"):
     if same_nearest_result:
         map_key_html = (
             '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
-            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;'
+            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#DC2626", 28)} <b>Closest overall &amp; matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
             + current_location_key +
@@ -1158,7 +1165,8 @@ if st.session_state.get("nearest_results"):
     else:
         map_key_html = (
             '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
-            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;'
+            'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
+            '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#2563EB", 28)} <b>Closest overall</b></span>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#16A34A", 28)} <b>Closest matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
@@ -1169,6 +1177,7 @@ else:
     map_key_html = (
         '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
         'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
+        '<div style="flex-basis:100%;font-weight:700;font-size:1rem;margin-bottom:2px;">Map key</div>'
         '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Helicopter landing zone (HLZ)</b></span>'
         + current_location_key +
         '</div>'
