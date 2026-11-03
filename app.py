@@ -37,7 +37,7 @@ _SEARCH_ABBREVIATIONS = {
 def _normalise_search_text(value):
     text = str(value or "").casefold()
     return re.sub(
-        r"\\b[\\w]+\\b",
+        r"\b[\w]+\b",
         lambda match: _SEARCH_ABBREVIATIONS.get(match.group(0), match.group(0)),
         text,
     )
@@ -939,7 +939,7 @@ if permission_status != "desktop_disabled":
         """
         <div style="background:#EFF6FF; color:#1E40AF; border:1px solid #BFDBFE;
              border-left:6px solid #2563EB; border-radius:8px; padding:12px 14px;
-             margin:0 0 0 0;">
+             margin:0 0 8px 0;">
           This app can use your current location to show an ambulance marker and find the nearest recorded HLZ.
           Your location is used only in this session and is not saved to the HLZ database.
           Your browser will ask whether you want to allow access.
