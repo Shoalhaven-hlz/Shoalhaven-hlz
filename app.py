@@ -303,6 +303,36 @@ st.markdown(
             [data-testid="stCheckbox"] label, [data-testid="stRadio"] label {{
                 color: #F1F5F9 !important;
             }}
+            /* Improve search controls and labels on phones using system dark mode. */
+            div[data-testid="stExpander"] {{
+                background: #202B36 !important;
+                border-color: #78AEE8 !important;
+            }}
+            div[data-testid="stExpander"] summary {{
+                background: #263D53 !important;
+                color: #F8FAFC !important;
+            }}
+            div[data-testid="stExpander"] summary p,
+            div[data-testid="stExpander"] summary span {{
+                color: #F8FAFC !important;
+                -webkit-text-fill-color: #F8FAFC !important;
+                font-weight: 800 !important;
+            }}
+            [data-testid="stWidgetLabel"],
+            [data-testid="stWidgetLabel"] p,
+            [data-testid="stWidgetLabel"] span,
+            .stSelectbox label, .stTextInput label,
+            .stSelectbox label p, .stTextInput label p {{
+                color: #F8FAFC !important;
+                -webkit-text-fill-color: #F8FAFC !important;
+                font-weight: 700 !important;
+            }}
+            [data-baseweb="input"] > div,
+            [data-baseweb="textarea"] > div,
+            [data-baseweb="select"] > div {{
+                background-color: #263340 !important;
+                border: 1px solid #A0B4C8 !important;
+            }}
             .main-title, .detail-title, .navigation-title {{ color: #D8E9FF !important; }}
             .subtitle, .field-label {{ color: #C0CEDD !important; }}
             .detail-card {{
@@ -1111,6 +1141,10 @@ if has_gps and nearest_results:
 
 st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
 st.markdown("#### Map key")
+current_location_key = (
+    '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚑 <b>Your location</b></span>'
+    if has_gps else ""
+)
 if st.session_state.get("nearest_results"):
     if same_nearest_result:
         map_key_html = (
@@ -1118,6 +1152,7 @@ if st.session_state.get("nearest_results"):
             'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#DC2626", 28)} <b>Closest overall &amp; matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
+            + current_location_key +
             '</div>'
         )
     else:
@@ -1127,6 +1162,7 @@ if st.session_state.get("nearest_results"):
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#2563EB", 28)} <b>Closest overall</b></span>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#16A34A", 28)} <b>Closest matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
+            + current_location_key +
             '</div>'
         )
 else:
@@ -1134,6 +1170,7 @@ else:
         '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
         'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
         '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Helicopter landing zone (HLZ)</b></span>'
+        + current_location_key +
         '</div>'
     )
 st.markdown(map_key_html, unsafe_allow_html=True)

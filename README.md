@@ -1,4 +1,14 @@
-# Shoalhaven HLZ Map — Prototype 78
+# Shoalhaven HLZ Map — Prototype 80
+
+## Changes in Prototype 80
+
+- Restored the ambulance/current-location (`🚑 Your location`) map key on mobile when GPS is enabled.
+- Kept the ambulance location key hidden on desktop/laptop, where location access is disabled.
+
+## Changes in Prototype 79
+
+- Improved contrast of Search HLZs accordion, Station Area and Suburb dropdown labels, and Keyword search label when the device/browser is set to System dark mode.
+- Added a darker search accordion panel/header, brighter bold titles, and clearer borders/backgrounds on mobile search controls in dark mode.
 
 ## Changes in Prototype 68
 
@@ -43,4 +53,4 @@ Keep your existing `hlz_database.csv` and other project assets unless a future u
 
 ## Version numbering
 
-This release is **Prototype 78**. The next update will be **Prototype 79**, followed by 80, 81, and so on.
+This release is **Prototype 80**. The next update will be **Prototype 81**, followed by 82, 83, and so on.
