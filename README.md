@@ -1,4 +1,11 @@
-# Shoalhaven HLZ Map — Prototype 89 (Full project package)
+# Shoalhaven HLZ Map — Prototype 93 (Full project package)
+
+## Prototype 93 updates
+- Replaced the rounded white horizontal rule beneath the Selected HLZ description with a simple thin divider, using a plain HTML div to avoid Streamlit’s styled hr rendering.
+- Verified the root `app.py` contains the updated divider.
+
+## Prototype 92 updates
+- Updated map key styling to a subtle blue-grey background, 2px orange border and orange heading.
 
 ## Prototype 89 updates
 - Removed the embedded browser component's “Location access granted.” status text on mobile after a successful GPS fix.
@@ -67,3 +74,7 @@ The banner and Streamlit page icon do not, by themselves, guarantee that Safari'
 - Map key retains a subtle light blue/grey background.
 - Map key border changed to 2px orange; heading remains orange.
 - Legend entries and spacing preserved.
+
+
+### Prototype 94
+- Removed the extra horizontal divider beneath the Selected HLZ Details description. The existing divider above the map key/pill-shaped box remains.

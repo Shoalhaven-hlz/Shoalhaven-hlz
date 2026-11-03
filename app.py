@@ -1545,8 +1545,7 @@ if st.session_state.selected_hlz is not None and st.session_state.selected_hlz i
         st.markdown(
             '<div style="font-size:0.88rem; color:var(--text-color); margin:0 0 0.05rem 0; padding:0;">'
             'The information below relates to the HLZ selected on the map above.'
-            '</div><hr style="border:0;border-top:1px solid rgba(90,103,114,0.35);'
-            'margin:8px 0 12px 0;height:0;background:transparent;box-shadow:none;">',
+            '</div>',
             unsafe_allow_html=True,
         )
     
