@@ -102,7 +102,11 @@
       try {
         navigator.geolocation.getCurrentPosition(
           function (position) {
-            statusEl.textContent = 'Location access granted.';
+            // Keep the successful permission status out of the mobile UI.
+            // The Streamlit page already displays the green Location enabled banner.
+            statusEl.textContent = '';
+            statusEl.style.display = 'none';
+            setFrameHeight(0);
             sendValue({
               status: 'granted',
               platform: platform,

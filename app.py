@@ -105,6 +105,9 @@ st.markdown(
             padding-top: 3.5rem;
             padding-bottom: 2rem;
         }}
+        @media (max-width: 768px) {{
+            .mobile-location-enabled {{ display: none !important; }}
+        }}
         /* Keep the browser location component collapsed. */
         div[data-testid="stAlert"] {{
             margin-bottom: 0.25rem !important;
@@ -1041,7 +1044,7 @@ if has_gps and permission_status == "granted":
     with loc_col:
         st.markdown(
             """
-            <div style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0;
+            <div class="mobile-location-enabled" style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0;
                  border-left:6px solid #16A34A; border-radius:8px; padding:10px 12px;
                  margin-bottom:16px; min-height:42px; display:flex; align-items:center; font-weight:600;">
               📍 Location enabled
@@ -1542,7 +1545,8 @@ if st.session_state.selected_hlz is not None and st.session_state.selected_hlz i
         st.markdown(
             '<div style="font-size:0.88rem; color:#5A6772; margin:0 0 0.05rem 0; padding:0;">'
             'The information below relates to the HLZ selected on the map above.'
-            '</div>',
+            '</div><hr style="border:0;border-top:1px solid rgba(90,103,114,0.35);'
+            'margin:8px 0 12px 0;height:0;background:transparent;box-shadow:none;">',
             unsafe_allow_html=True,
         )
     

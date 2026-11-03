@@ -1,4 +1,11 @@
-# Shoalhaven HLZ Map — Prototype 87 (Full project package)
+# Shoalhaven HLZ Map — Prototype 89 (Full project package)
+
+## Prototype 89 updates
+- Removed the embedded browser component's “Location access granted.” status text on mobile after a successful GPS fix.
+- Collapsed the permission component iframe to zero height after success, removing the gap beneath Search HLZs.
+- Preserved the green “Location enabled” banner, GPS coordinates, refresh control, and nearest-HLZ functionality.
+- No other location status messages or permission handling changed.
+
 
 ## Prototype 87 updates
 - Increased the main **Map** heading from 1.15rem to 1.5rem.
@@ -39,3 +46,8 @@ This update is based on the supplied `app.py`, `index.html`, and the matching pr
 
 ### Important iPhone Home Screen icon limitation
 The banner and Streamlit page icon do not, by themselves, guarantee that Safari's **Add to Home Screen** shortcut will use the custom icon. The iOS Home Screen icon is normally read from an `apple-touch-icon` link in the actual top-level page HTML. `index.html` in this project is a Streamlit custom component used for location/auth messaging; it is not the top-level Streamlit page HTML, so changing it will not set Safari's Home Screen icon. Streamlit Community Cloud does not provide a normal setting for editing that top-level HTML head. A separate hosting/proxy/PWA approach may be required to guarantee a custom iPhone icon. Do not replace this component's `index.html` with a generic HTML page, as that would break the existing location/auth bridge.
+
+
+## Prototype 88 changes
+- Mobile: hide the green “Location enabled” status banner beneath the search controls. GPS, refresh, and nearest-HLZ controls remain available.
+- Selected HLZ details: replace the white rounded/shadow spacer with a thin horizontal divider and modest spacing.
