@@ -1,4 +1,4 @@
-# Shoalhaven HLZ Map — Prototype 69
+# Shoalhaven HLZ Map — Prototype 70
 
 ## Changes in Prototype 68
 
@@ -14,7 +14,7 @@ This prototype carries forward the existing Shoalhaven Landing Zones app and inc
 - Kept current-location functionality for supported mobile devices.
 - Removed the non-working current-location display/information from desktop and laptop layouts.
 - Restored the previous desktop/laptop warning information, with a computer icon (💻) at the start.
-- Changed the desktop/laptop warning banner to a red style with a red left border. The warning explains that location access is disabled on the device, while HLZ browsing, Station Area/Suburb filters, and navigation links remain available.
+- Changed the desktop/laptop warning banner to a red style with a red left border. The warning explains that location access is disabled on the device, while users can still browse and select HLZs on the map, use the search function, and open navigation links.
 
 ## Deployment
 
@@ -24,4 +24,4 @@ Keep your existing `hlz_database.csv` and other project assets unless a future u
 
 ## Version numbering
 
-This release is **Prototype 69**. The next update will be **Prototype 70**, followed by 71, 72, and so on.
+This release is **Prototype 70**. The next update will be **Prototype 71**, followed by 72, 73, and so on.

@@ -887,7 +887,7 @@ if permission_status == "desktop_disabled":
              border-left:6px solid #DC2626; border-radius:8px; padding:12px 14px;
              margin:0 0 0 0; font-weight:600;">
           <div style="font-size:1rem; margin-bottom:4px;">💻 Desktop/laptop detected</div>
-          <div style="font-weight:500;">Location access is disabled on this device. You can still browse HLZs, use the Station Area and Suburb filters, and open navigation links.</div>
+          <div style="font-weight:500;">Location access is disabled on this device. You can still browse and select HLZs on the map, use the search function, and open navigation links.</div>
         </div>
         """,
         unsafe_allow_html=True,
