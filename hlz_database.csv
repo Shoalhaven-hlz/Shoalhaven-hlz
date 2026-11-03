@@ -1,0 +1,6 @@
+HLZ Number,Station Area,Suburb,Facility,Street Address,What3Words,Latitude,Longitude,Landing Surface,Gate,Windsock,Lighting,Notes
+HLZ-001,Shoalhaven,Nowra,Example Oval,1 Example Street Nowra NSW 2541,///example.one.two,-34.881,150.600,Grass,Gate A,Yes,Portable lighting available,Keep clear of light poles
+HLZ-002,Shoalhaven,Ulladulla,Example Showground,2 Example Road Ulladulla NSW 2539,///example.three.four,-35.362,150.475,Grass,Main gate,Yes,No permanent lighting,Check gate access
+HLZ-003,Illawarra,Kiama,Example Field,3 Example Avenue Kiama NSW 2533,///example.five.six,-34.671,150.854,Grass,Gate 1,No,No,Soft ground after rain
+HLZ-004,Shoalhaven,Milton,Example Reserve,4 Example Road Milton NSW 2538,///example.seven.eight, -35.318,150.437,Gravel,Gate B,Yes,Portable lighting,Watch uneven surface
+HLZ-005,Shoalhaven,Nowra,Example School Field,5 Example Street Nowra NSW 2541,///example.nine.ten,-34.895,150.600,Grass,Rear gate,No,No,School access restrictions may apply

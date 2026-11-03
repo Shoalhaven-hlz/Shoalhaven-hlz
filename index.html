@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body { margin: 0; padding: 0; background: transparent; font-family: sans-serif; }
+    #status { font-size: 13px; color: #40566b; padding: 3px 0; }
+  </style>
+</head>
+<body>
+  <div id="status">Checking location permission…</div>
+  <script>
+    const statusEl = document.getElementById('status');
+    let lastRequestId = null;
+    let sentForThisId = false;
+    let activeRequestId = null;
+
+    function sendValue(value) {
+      // Tag every result so Python can discard stale/cached results from a
+      // previous permission attempt.
+      value.request_id = activeRequestId;
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: 'streamlit:setComponentValue',
+        value: value
+      }, '*');
+    }
+
+    function setFrameHeight(height) {
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: 'streamlit:setFrameHeight',
+        height: height
+      }, '*');
+    }
+
+    function detectPlatform() {
+      const ua = navigator.userAgent || '';
+      const platform = navigator.platform || '';
+      const touchPoints = navigator.maxTouchPoints || 0;
+      // iPadOS can identify itself as a Mac when "Request Desktop Website" is on.
+      if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+      if (/Macintosh/i.test(ua) && touchPoints > 1) return 'ios';
+      if (/Android/i.test(ua)) return 'android';
+      if (/Windows|Macintosh|MacIntel|Linux x86_64|X11/i.test(ua + ' ' + platform)) return 'desktop';
+      // Conservative fallback: only allow geolocation automatically on known mobile platforms.
+      return 'desktop';
+    }
+
+    function handleAuth(args) {
+      const KEY = 'hlz_pin_authenticated_at_v1';
+      const now = Date.now();
+      let stamp = 0;
+      try { stamp = Number(sessionStorage.getItem(KEY) || 0); } catch (e) {}
+      if (args.authenticated) {
+        if (!stamp || now - stamp >= 15 * 60 * 1000) {
+          stamp = now;
+          try { sessionStorage.setItem(KEY, String(stamp)); } catch (e) {}
+        }
+      }
+      const valid = !!stamp && now >= stamp && (now - stamp) < 15 * 60 * 1000;
+      if (!valid && !args.authenticated) {
+        try { sessionStorage.removeItem(KEY); } catch (e) {}
+      }
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: 'streamlit:setComponentValue',
+        value: {valid: valid, authenticatedAt: stamp, checkedAt: now}
+      }, '*');
+    }
+
+    function requestLocation(requestId) {
+      if (sentForThisId && lastRequestId === requestId) return;
+      lastRequestId = requestId;
+      activeRequestId = requestId;
+      sentForThisId = true;
+
+      const platform = detectPlatform();
+      if (platform === 'desktop') {
+        statusEl.textContent = '';
+        statusEl.style.display = 'none';
+        setFrameHeight(0);
+        sendValue({status: 'desktop_disabled', platform: platform});
+        return;
+      }
+
+      // Keep the component compact on mobile while showing status text.
+      setFrameHeight(28);
+      if (!window.isSecureContext) {
+        statusEl.textContent = 'Location requires HTTPS.';
+        sendValue({status: 'insecure'});
+        return;
+      }
+      if (!navigator.geolocation) {
+        statusEl.textContent = 'Location is not supported by this browser.';
+        sendValue({status: 'unsupported'});
+        return;
+      }
+
+      statusEl.textContent = 'Requesting permission to use your current location…';
+      try {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            statusEl.textContent = 'Location access granted.';
+            sendValue({
+              status: 'granted',
+              platform: platform,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            });
+          },
+          function (error) {
+            let state = 'error';
+            if (error && error.code === 1) state = 'denied';
+            if (error && error.code === 2) state = 'unavailable';
+            statusEl.textContent = state === 'denied'
+              ? 'Location access was denied or blocked.'
+              : state === 'unavailable'
+                ? 'The device could not determine a location.'
+                : 'Location could not be obtained.';
+            sendValue({status: state, platform: platform, error: error ? error.message : 'Unknown location error'});
+          },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+        );
+      } catch (e) {
+        statusEl.textContent = 'Unable to request location.';
+        sendValue({status: 'error', error: String(e)});
+      }
+    }
+
+    window.addEventListener('message', function (event) {
+      const data = event.data;
+      if (!data || typeof data !== 'object') return;
+      if (data.type === 'streamlit:render') {
+        const args = data.args || {};
+        if (args.mode === 'auth') {
+          handleAuth(args);
+          return;
+        }
+        const requestId = args.request_id === undefined ? 1 : args.request_id;
+        if (requestId !== lastRequestId) {
+          sentForThisId = false;
+          requestLocation(requestId);
+        }
+      }
+    });
+
+    // Tell Streamlit this is a component and ask for its initial arguments.
+    window.parent.postMessage({isStreamlitMessage: true, type: 'streamlit:componentReady', apiVersion: 1}, '*');
+    // Start collapsed to avoid a blank gap before desktop detection completes.
+    setFrameHeight(0);
+  </script>
+</body>
+</html>
