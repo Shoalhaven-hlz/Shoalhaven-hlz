@@ -880,6 +880,9 @@ if isinstance(location_result, dict):
 permission_status = st.session_state.location_permission_status
 has_gps = st.session_state.user_latitude is not None and st.session_state.user_longitude is not None
 
+if permission_status == "desktop_disabled":
+    st.warning("Desktop/laptop detected. Location access is disabled on this device.")
+
 if permission_status != "desktop_disabled":
     st.markdown("### 📍 Current Location")
     st.info(
@@ -1025,7 +1028,7 @@ if st.session_state.get("nearest_results"):
             'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#DC2626", 28)} <b>Closest overall &amp; matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
-            '<span style="font-size:15px;">🚑 <b>Your current location</b></span></div>'
+            '</div>'
         )
     else:
         map_key_html = (
@@ -1034,14 +1037,14 @@ if st.session_state.get("nearest_results"):
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#2563EB", 28)} <b>Closest overall</b></span>'
             f'<span style="display:flex;align-items:center;gap:6px;">{location_pin_svg("#16A34A", 28)} <b>Closest matching filters</b></span>'
             '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Other HLZs</b></span>'
-            '<span style="font-size:15px;">🚑 <b>Your current location</b></span></div>'
+            '</div>'
         )
 else:
     map_key_html = (
         '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 12px;'
         'background:rgba(127,127,127,0.08);border:1px solid rgba(127,127,127,0.25);border-radius:8px;">'
         '<span style="display:flex;align-items:center;gap:6px;font-size:15px;">🚁 <b>Helicopter landing zone (HLZ)</b></span>'
-        '<span style="font-size:15px;">🚑 <b>Your current location</b></span></div>'
+        '</div>'
     )
 st.markdown(map_key_html, unsafe_allow_html=True)
 
