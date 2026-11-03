@@ -109,6 +109,23 @@ st.markdown(
         div[data-testid="stAlert"] {{
             margin-bottom: 0.25rem !important;
         }}
+        /* Make the search accordion easier to spot and tap. */
+        div[data-testid="stExpander"] {{
+            border: 2px solid #1E5AA8 !important;
+            border-radius: 10px !important;
+            background: #FFFFFF !important;
+            box-shadow: 0 2px 5px rgba(18, 59, 102, 0.14) !important;
+            overflow: hidden !important;
+        }}
+        div[data-testid="stExpander"] summary {{
+            background: #DCEBFF !important;
+            padding: 0.75rem 0.9rem !important;
+            font-weight: 800 !important;
+        }}
+        div[data-testid="stExpander"] summary p {{
+            font-weight: 800 !important;
+            color: #123B66 !important;
+        }}
         div[data-testid="stElementContainer"]:has(iframe[title*="hlz_location_permission"]) {{
             margin-top: 0 !important;
             margin-bottom: 0 !important;
@@ -926,7 +943,7 @@ if permission_status == "desktop_disabled":
         <div style="background:#FEE2E2; color:#991B1B; border:1px solid #DC2626;
              border-left:6px solid #DC2626; border-radius:8px; padding:12px 14px;
              margin:0 0 0 0; font-weight:600;">
-          <div style="font-size:1rem; margin-bottom:4px;">🖥️ Desktop/laptop detected</div>
+          <div style="font-size:1rem; margin-bottom:4px;">💻 Desktop/laptop detected</div>
           <div style="font-weight:500;">Location access is disabled on this device. You can still browse and select HLZs on the map, use the search function, and open navigation links.</div>
         </div>
         """,
@@ -996,7 +1013,7 @@ if has_gps and permission_status == "granted":
             """
             <div style="background:#F0FDF4; color:#166534; border:1px solid #BBF7D0;
                  border-left:6px solid #16A34A; border-radius:8px; padding:10px 12px;
-                 margin-right:16px; min-height:42px; display:flex; align-items:center; font-weight:600;">
+                 margin-bottom:16px; min-height:42px; display:flex; align-items:center; font-weight:600;">
               📍 Location enabled
             </div>
             """,
@@ -1519,7 +1536,13 @@ if st.session_state.selected_hlz is not None and st.session_state.selected_hlz i
         unsafe_allow_javascript=True,
     )
 elif st.session_state.selected_hlz is None:
-    st.info("Select an 🚁 on the map to view the HLZ details.")
+    st.markdown(
+        '<div style="background:#EFF6FF; color:#1E40AF; border:1px solid #BFDBFE; '
+        'border-left:8px solid #1E5AA8; border-radius:8px; padding:12px 14px; '
+        'font-weight:700; margin:0.25rem 0 0.75rem 0;">'
+        'Select an 🚁 on the map to view the HLZ details.</div>',
+        unsafe_allow_html=True,
+    )
 
 st.markdown(
     '<div style="margin-top:1.2rem; padding-top:0.8rem; border-top:1px solid #CBD5E1;">'

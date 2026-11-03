@@ -1,6 +1,18 @@
-# Shoalhaven HLZ Map — Prototype 76
+# Shoalhaven HLZ Map — Prototype 78
 
 ## Changes in Prototype 68
+
+## Changes in Prototype 78
+
+- Added a bold blue left border to the “Select an 🚁 on the map to view the HLZ details” banner.
+- Made the Search HLZs accordion more prominent with a blue border, light-blue header, bold heading, and subtle shadow.
+
+## Changes in Prototype 77
+
+- Restored the original laptop icon (💻) in the desktop/laptop detected banner.
+- Changed the Location enabled banner spacing from a right margin to a 16px bottom margin so the gap appears vertically on mobile before the Refresh Location button.
+
+
 
 This prototype carries forward the existing Shoalhaven Landing Zones app and includes the following updates:
 
@@ -15,10 +27,10 @@ This prototype carries forward the existing Shoalhaven Landing Zones app and inc
 - Removed the current-location ambulance icon from the map legend.
 - Kept current-location functionality for supported mobile devices.
 - Removed the non-working current-location display/information from desktop and laptop layouts.
-- Restored the previous desktop/laptop warning information, with a computer icon (🖥️) at the start.
+- Restored the previous desktop/laptop warning information, with a laptop icon (💻) at the start.
 - Added coloured left borders to the mobile current-location information banners: blue for the location information banner and green for the Location enabled banner.
-- Added a 16px visual gap between the green Location enabled banner and the Refresh Location button.
-- Updated the desktop/laptop warning icon to a desktop monitor (🖥️).
+- Added a 16px bottom margin to the green Location enabled banner to create a vertical gap before the Refresh Location button on mobile.
+- Updated the desktop/laptop warning icon to a laptop (💻).
 - Changed the location access declined/blocked message to a red warning banner with a red left border and warning icon.
 - Added a small 8px gap below the blue location information banner before the green Location enabled or red declined/blocked banner.
 - Changed the desktop/laptop warning banner to a red style with a red left border. The warning explains that location access is disabled on the device, while users can still browse and select HLZs on the map, use the search function, and open navigation links.
@@ -31,4 +43,4 @@ Keep your existing `hlz_database.csv` and other project assets unless a future u
 
 ## Version numbering
 
-This release is **Prototype 76**. The next update will be **Prototype 77**, followed by 78, 79, and so on.
+This release is **Prototype 78**. The next update will be **Prototype 79**, followed by 80, 81, and so on.
